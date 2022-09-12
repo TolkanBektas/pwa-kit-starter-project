@@ -58,10 +58,17 @@ module.exports = {
         ssrFunctionNodeVersion: '14.x',
         proxyConfigs: [
             {
+                protocol : 'https',
                 host: 'kv7kzm78.api.commercecloud.salesforce.com',
                 path: 'api'
             },
             {
+                protocol : 'https',
+                host: 'prd.us.shopper.commercecloud.salesforce.com',
+                path: 'slas'
+            },
+            {
+                protocol : 'https',
                 host: 'zzrb-183.sandbox.us01.dx.commercecloud.salesforce.com',
                 path: 'ocapi'
             },
