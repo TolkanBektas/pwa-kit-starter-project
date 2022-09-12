@@ -8,6 +8,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {useIntl, FormattedMessage} from 'react-intl'
+import {Alert, AlertIcon} from '@chakra-ui/react'
 
 // Components
 import {
@@ -48,8 +49,15 @@ import {
  */
 const Home = ({productSearchResult, isLoading}) => {
     const intl = useIntl()
-    const MyHeader = () => {
-        return <h1>Hello from custom component</h1>
+    const MyHeader = ({name}) => {
+        return(
+            <Box>
+                <h1>Hello,{name}!</h1>
+                <Alert padding="10" status="success">
+                    <AlertIcon/>Chakra UI components unlocked!
+                </Alert>
+            </Box>
+        )
     }
 
     return (
@@ -59,7 +67,7 @@ const Home = ({productSearchResult, isLoading}) => {
                 description="Commerce Cloud Retail React App"
                 keywords="Commerce Cloud, Retail React App, React Storefront"
             />
-            <MyHeader/>
+            <MyHeader name="Tolkan" />
             <Hero
                 title={intl.formatMessage({
                     defaultMessage: 'The React PWA Starter Store for Retail',
