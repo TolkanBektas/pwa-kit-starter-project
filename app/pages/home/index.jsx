@@ -48,6 +48,9 @@ import {
  */
 const Home = ({productSearchResult, isLoading}) => {
     const intl = useIntl()
+    const MyHeader = () => {
+        return <h1>Hello from custom component</h1>
+    }
 
     return (
         <Box data-testid="home-page" layerStyle="page">
@@ -56,7 +59,7 @@ const Home = ({productSearchResult, isLoading}) => {
                 description="Commerce Cloud Retail React App"
                 keywords="Commerce Cloud, Retail React App, React Storefront"
             />
-
+            <MyHeader/>
             <Hero
                 title={intl.formatMessage({
                     defaultMessage: 'The React PWA Starter Store for Retail',
