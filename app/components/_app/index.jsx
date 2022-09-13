@@ -13,8 +13,9 @@ import {getAppOrigin} from 'pwa-kit-react-sdk/utils/url'
 
 import fetch from 'cross-fetch'
 // Chakra
-import {Box, useDisclosure, useStyleConfig} from '@chakra-ui/react'
+import {Text, Box, useDisclosure, useStyleConfig} from '@chakra-ui/react'
 import {SkipNavLink, SkipNavContent} from '@chakra-ui/skip-nav'
+import {InfoOutlineIcon} from '@chakra-ui/icons'
 
 // Contexts
 import {CategoriesProvider, CurrencyProvider} from '../../contexts'
@@ -53,6 +54,7 @@ import useMultiSite from '../../hooks/use-multi-site'
 const DEFAULT_NAV_DEPTH = 3
 const DEFAULT_ROOT_CATEGORY = 'root'
 
+
 const App = (props) => {
     const {
         children,
@@ -61,6 +63,12 @@ const App = (props) => {
         categories: allCategories = {},
         privacyPolicy
     } = props
+
+    const GEO_LOCATION = {
+        lat: '34.052235',
+        long: '-118.243683'
+    }
+    const [closestStore, setClosestStore] = useState(undefined)
 
     const appOrigin = getAppOrigin()
 
@@ -103,6 +111,19 @@ const App = (props) => {
         watchOnlineStatus((isOnline) => {
             setIsOnline(isOnline)
         })
+        const fetchStore = async () => {
+            const res = await fetch(
+                `http://localhost:3000/mobify/proxy/ocapi/s/<Key Value: Site ID>/dw/shop/v20_2/stores?latitude=${GEO_LOCATION.lat}&longitude=${GEO_LOCATION.long}&client_id=<Key Value: Commerce API client ID>`
+            )
+            if (res.ok) {
+                const storeResult = await res.json()
+                const firstStore = storeResult.data[0]
+                if (firstStore) {
+                    setClosestStore(firstStore)
+                }
+            }
+        }
+        fetchStore()
     }, [])
 
     useEffect(() => {
@@ -234,6 +255,25 @@ const App = (props) => {
                             </Box>
 
                             {!isOnline && <OfflineBanner />}
+
+                            {closestStore && (
+                                <Box
+                                    bg="blue.500"
+                                    w="100%"
+                                    d="flex"
+                                    justifyContent="center"
+                                    alignItems="center"
+                                    p={2}
+                                    color="white" >
+                                    <InfoOutlineIcon />
+                                    <Text fontWeight="bold" pl={1}>Closest Store: </Text>
+                                    <Text pl={2}>
+                                        {closestStore.name} - {closestStore.address1},{' '}
+                                        {closestStore.state_code}, {closestStore.postal_code}
+                                    </Text>
+                                </Box>
+                            )}
+
                             <AddToCartModalProvider>
                                 <SkipNavContent
                                     style={{
