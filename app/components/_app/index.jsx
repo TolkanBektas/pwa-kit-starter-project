@@ -11,6 +11,7 @@ import {useHistory, useLocation} from 'react-router-dom'
 import {getAssetUrl} from 'pwa-kit-react-sdk/ssr/universal/utils'
 import {getAppOrigin} from 'pwa-kit-react-sdk/utils/url'
 
+import fetch from 'cross-fetch'
 // Chakra
 import {Box, useDisclosure, useStyleConfig} from '@chakra-ui/react'
 import {SkipNavLink, SkipNavContent} from '@chakra-ui/skip-nav'
@@ -53,7 +54,13 @@ const DEFAULT_NAV_DEPTH = 3
 const DEFAULT_ROOT_CATEGORY = 'root'
 
 const App = (props) => {
-    const {children, targetLocale, messages, categories: allCategories = {}} = props
+    const {
+        children,
+        targetLocale,
+        messages,
+        categories: allCategories = {},
+        privacyPolicy
+    } = props
 
     const appOrigin = getAppOrigin()
 
@@ -251,7 +258,11 @@ const App = (props) => {
                                 </SkipNavContent>
 
                                 {!isCheckout ? <Footer /> : <CheckoutFooter />}
-
+                                <div>
+                                    {privacyPolicy && (
+                                        <div dangerouslySetInnerHTML={{__html: privacyPolicy.c_body}} />
+                                    )}
+                                </div>
                                 <AuthModal {...authModal} />
                             </AddToCartModalProvider>
                         </Box>
@@ -322,10 +333,20 @@ Learn more with our localization guide. https://sfdc.co/localization-guide
     // the application.
     const categories = flatten(rootCategory, 'categories')
 
+    let privacyPolicy
+    const result = await fetch(
+        `http://localhost:3000/mobify/proxy/ocapi/s/<Key Value: Site ID>/dw/shop/v20_2/content/privacy-policy?client_id=<Key Value: Commerce API client ID>`
+    )
+
+    if (result.ok) {
+        privacyPolicy = await result.json()
+    }
+
     return {
         targetLocale,
         messages,
         categories,
+        privacyPolicy: privacyPolicy,
         config: res?.locals?.config
     }
 }
@@ -335,7 +356,8 @@ App.propTypes = {
     targetLocale: PropTypes.string,
     messages: PropTypes.object,
     categories: PropTypes.object,
-    config: PropTypes.object
+    config: PropTypes.object,
+    privacyPolicy: PropTypes.object
 }
 
 export default App
