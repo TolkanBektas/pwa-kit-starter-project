@@ -66,6 +66,7 @@ AppConfig.restore = (locals = {}) => {
         ...appConfig.commerceAPI,
         einsteinConfig: appConfig.einsteinAPI
     }
+    AppConfig.api = new CommerceAPI(commerceAPIConfig)
 
     apiConfig.parameters.siteId = site.id
 
