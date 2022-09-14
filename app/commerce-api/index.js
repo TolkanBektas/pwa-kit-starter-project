@@ -63,6 +63,19 @@ class CommerceAPI {
             this.einstein = new EinsteinAPI(this)
         }
 
+        const apis = {
+            shopperCustomers: sdk.ShopperCustomers,
+            shopperBaskets: OcapiShopperBaskets,
+            shopperGiftCertificates: sdk.ShopperGiftCertificates,
+            shopperLogin: SlasShopperLogin,
+            shopperOrders: OcapiShopperOrders,
+            shopperProducts: sdk.ShopperProducts,
+            shopperPromotions: sdk.ShopperPromotions,
+            shopperSearch: sdk.ShopperSearch
+        }
+
+
+
         // A mapping of property names to the SDK class constructors we'll be
         // providing instances for.
         //
