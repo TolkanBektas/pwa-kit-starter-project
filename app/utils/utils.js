@@ -35,6 +35,17 @@ export const watchOnlineStatus = (callback, win = window) => {
 }
 
 /**
+ * Returns a comma-separated list of ids from an array of objects
+ * @param {Array} arrayIn
+ * @param {string} idProperty
+ * @returns comma-separated list of ids
+ */
+ export const pluckIds = (arrayIn = [], idProperty) => {
+    // Inspired by https://underscorejs.org/#pluck
+    return arrayIn.map(iterator => iterator[idProperty]).toString()
+}
+
+/**
  * Compares the primary fields of two address objects to determine if they match.
  * @param {Object} addr1
  * @param {Object} addr2
