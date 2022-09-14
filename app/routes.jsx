@@ -93,7 +93,7 @@ const routes = [
         exact: true
     },
     {
-        path: '/:locale/product/:productId',
+        path: '/products/:productId',
         component: ProductDetails
     },
     {

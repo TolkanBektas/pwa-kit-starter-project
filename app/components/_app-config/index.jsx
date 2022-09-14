@@ -24,6 +24,7 @@ import {resolveSiteFromUrl} from '../../utils/site-utils'
 import {resolveLocaleFromUrl} from '../../utils/utils'
 import {getConfig} from 'pwa-kit-runtime/utils/ssr-config'
 import {createUrlTemplate} from '../../utils/url'
+import {commerceAPIConfig} from '../../commerce-api.config'
 
 /**
  * Use the AppConfig component to inject extra arguments into the getProps

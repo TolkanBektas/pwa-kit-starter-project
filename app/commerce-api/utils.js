@@ -8,6 +8,8 @@ import jwtDecode from 'jwt-decode'
 import {getAppOrigin} from 'pwa-kit-react-sdk/utils/url'
 import {HTTPError} from 'pwa-kit-react-sdk/ssr/universal/errors'
 import fetch from 'cross-fetch'
+import {useContext}  from 'react'
+import {CommerceAPIContext}  from '../commerce-api/contexts'
 
 /**
  * Compares the token age against the issued and expiry times. If the token's age is
@@ -29,7 +31,7 @@ export function isTokenValid(token) {
 
     return false
 }
-
+export const useCommerceAPI = () => useContext(CommerceAPIContext)
 // Returns fomrulated body for SopperLogin getToken endpoint
 export function createGetTokenBody(urlString, slasCallbackEndpoint, codeVerifier) {
     const url = new URL(urlString)
